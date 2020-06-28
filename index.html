@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+    
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+</style>
+<body>
+
+    <button onclick="document.location='https://drive.google.com/file/d/1lrFEV5KGltGeiNFyk5GsBTYwsZgS2drP/view?usp=sharing'">Download Android Application</button>
+    <br>
+    <br>
+    <center><div id="todayspiechart"></div></center>
+
+    <table>
+        <tr>
+            <th>Heding</th>
+            <th>Numbers</th>
+        </tr>
+        <tr>
+            <td>Today's Total Cases</td>
+            <td><div id='todayCases'></div></td>
+        </tr>
+        <tr>
+            <td>Today's Active Cases</td>
+            <td><div id='todayDeaths'></div></td>
+        </tr>
+        <tr>
+            <td>Today's Recovered Cases</td>
+            <td><div id='todayRecovered'></div></td>
+        </tr>
+        
+    </table>
+
+    <center><div id="piechart"></div></center>
+    <table>
+        <tr>
+            <th>Heding</th>
+            <th>Numbers</th>
+        </tr>
+        <tr>
+            <td>Total Cases</td>
+            <td><div id='totalcaseHtml'></div></td>
+        </tr>
+        <tr>
+            <td>Active Cases</td>
+            <td><div id='activeHtml'></div></td>
+        </tr>
+        <tr>
+            <td>Recovered Cases</td>
+            <td><div id='recoveredHtml'></div></td>
+        </tr>
+        <tr>
+            <td>Critical Cases</td>
+            <td><div id='criticalHtml'></div></td>
+        </tr>
+        <tr>
+            <td>Critical Cases</td>
+            <td><div id='criticalpermillionHtml'></div></td>
+        </tr>
+        <tr>
+            <td>Tests</td>
+            <td><div id='testsHtml'></div></td>
+        </tr>
+        <tr>
+            <td>Tests Per One Million</td>
+            <td><div id='testperonemillionHtml'></div></td>
+        </tr>
+        <tr>
+            <td>Active Per One Million</td>
+            <td><div id='activeperonemillionHtml'></div></td>
+        </tr>
+        <tr>
+            <td>Deaths Per One Million</td>
+            <td><div id='dethperonemillionHtml'></div></td>
+        </tr>
+        <tr>
+            <td>Population</td>
+            <td><div id='populationHtml'></div></td>
+        </tr>
+        <tr>
+            <td>Recovered Per One Million</td>
+            <td><div id='recoveredperonemillionHtml'></div></td>
+        </tr>
+        <tr>
+            <td>Affected Countries</td>
+            <td><div id='countryHtml'></div></td>
+        </tr>
+    </table>
+
+    <center><h1>Country wise Corona cases are coming soon....</h1></center>
+    
+    <script>
+
+        function showData(){
+            // todayCases: 100651
+            // todayDeaths: 2846
+            // todayRecovered: 61112
+            console.log("Active: " + x.active)
+            document.getElementById('totalcaseHtml').innerHTML = x.cases;
+            document.getElementById('activeHtml').innerHTML = x.active;
+            document.getElementById('recoveredHtml').innerHTML = x.recovered;
+            document.getElementById('criticalHtml').innerHTML = x.critical;
+            document.getElementById('criticalpermillionHtml').innerHTML = x.criticalPerOneMillion;
+            document.getElementById('testsHtml').innerHTML = x.tests;
+            document.getElementById('testperonemillionHtml').innerHTML = x.testsPerOneMillion;
+            document.getElementById('activeperonemillionHtml').innerHTML = x.activePerOneMillion;
+            document.getElementById('dethperonemillionHtml').innerHTML = x.deathsPerOneMillion;
+            document.getElementById('populationHtml').innerHTML = x.population;
+            document.getElementById('recoveredperonemillionHtml').innerHTML = x.recoveredPerOneMillion;
+            document.getElementById('countryHtml').innerHTML = x.affectedCountries;
+
+            document.getElementById('todayCases').innerHTML = x.todayCases;
+            document.getElementById('todayDeaths').innerHTML = x.todayDeaths;
+            document.getElementById('todayRecovered').innerHTML = x.todayRecovered;
+        }
+        
+        var x;
+        let covid;
+         fetch('https://corona.lmao.ninja/v2/all/')
+        .then(response => response.json())
+        .then((data) => {
+            //console.log(JSON.stringify(data).length);
+            //console.log(data.length);
+            //console.log(data)
+            console.log('---------------------------------------------');
+            x = data;
+            showData();
+        })
+       
+    </script>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script type="text/javascript">
+        // Load google charts
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        // Draw the chart and set the chart values
+        function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+        ['Covid-19', 'Total Cases'],
+        ['Active', x.active],
+        ['critical', x.critical],
+        ['deaths', x.deaths],
+        ['recovered', x.recovered]
+        ]);
+
+        // Optional; add a title and set the width and height of the chart
+        var options = {'title':'Covid-19 Cases', 'width':800, 'height':800};
+
+        // Display the chart inside the <div> element with id="piechart"
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
+    }
+    </script>
+
+    <script type="text/javascript">
+        // Load google charts
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        // Draw the chart and set the chart values
+        function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+        ['Covid-19', 'Total Cases'],
+        ['Today Cases', x.todayCases],
+        ['Today Deaths', x.todayDeaths],
+        ['Today Recovered', x.todayRecovered],
+        ]);
+
+        // Optional; add a title and set the width and height of the chart
+        var options = {'title':'Covid-19 Cases', 'width':800, 'height':800};
+
+        // Display the chart inside the <div> element with id="piechart"
+        var chart = new google.visualization.PieChart(document.getElementById('todayspiechart'));
+        chart.draw(data, options);
+    }
+    </script>
+     <a href='https://embed-map.org/'>embedding a google map</a> <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=8ca284664aaf83d8a28abe21621c9e65c52ba404'></script>
+     <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/711328/t/0"></script>
+</body>
+</html>
